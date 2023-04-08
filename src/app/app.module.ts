@@ -8,13 +8,17 @@ import { HeaderComponent } from './components/header/header.component';
 import { ProductComponent } from './screens/product/product.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ErrorComponent } from './screens/error/error.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     HeaderComponent,
-    ProductComponent
+    ProductComponent,
+    ErrorComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
