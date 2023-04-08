@@ -1,1 +1,33 @@
-<p>product works!</p>
+<div class="productpage">
+  <img src="../../assets/elec.jpeg" style="width:40%; flex:0.5;" class="border img-thumbnail"/>
+  <div class="mx-2"></div>
+  <div style="flex:0.5;">
+    <div class="my-2"><strong>Product Name : </strong>{{product?.productName}}</div>
+    <div class="my-2"><strong>Price : </strong>{{rupeeSign}} {{product?.price}}</div>
+    <div class="my-2"><strong>Description : </strong>{{product?.description}}</div>
+    <br/>
+    <em><strong>/* This text is a placeholder to fill the space */</strong></em>
+    <br/>
+    <br/>
+    <div>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.</div>
+    <div>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.</div>
+    <br/>
+    <div class="actionbuttons">
+      <button class="button mr-3" style="background-color:var(--error)">
+        <mat-icon class="icon mt-1 mb-0 mr-2" style="font-size: 18px;" fontIcon="delete"></mat-icon>
+        Delete
+      </button>
+      <button class="button" style="background-color:var(--primary)">
+        <mat-icon class="icon mt-1 mb-0 mr-2" style="font-size: 18px;" fontIcon="edit"></mat-icon>
+        Update
+      </button>
+    </div>
+  </div>
+  <br/>
+  <div class="back" routerLink="/">
+    <button class="button back" style="background-color:black;">
+      <mat-icon class="icon mt-1 mb-0 mr-2" style="font-size: 18px;" fontIcon="arrow_back"></mat-icon>
+      Go Back
+    </button>
+  </div>
+</div>

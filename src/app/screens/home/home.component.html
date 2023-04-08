@@ -2,7 +2,7 @@
 <div class="d-flex home" style="flex-wrap: wrap;">
   <div class="card-container" *ngFor="let product of products">
     <div class="productcard" routerLink="/product/{{product.productId}}">
-      <img src="../../assets/elec.jpeg">
+      <img src="../../assets/elec.jpeg" style="width:100%;">
       <div><strong>Product Name : </strong>{{product.productName}}</div>
       <div><strong>Price : </strong>{{rupeeSign}} {{product.price}}</div>
       <div><strong>Description : </strong>{{product.description}}</div>
