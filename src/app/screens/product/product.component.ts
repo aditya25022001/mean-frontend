@@ -19,4 +19,13 @@ export class ProductComponent {
     this.productService.getProductById(this.router.url.split("/")[2]).subscribe((response) => this.product=response.product);
   }
 
+  deleteProduct():void{
+    this.productService.deleteProduct(this.router.url.split("/")[2]).subscribe((response) => {
+      console.log(response)
+      setTimeout(() => {
+        this.router.navigate(["/"]);
+      },1500)
+    });
+  }
+
 }

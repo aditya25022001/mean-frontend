@@ -1,0 +1,32 @@
+<form autocomplete="off" class="formcomponent mx-auto border p-4 rounded">
+  <div class="d-flex" style="align-items: center;">
+    <mat-icon class="icon mr-1 mb-1" style="font-size: 23px;" fontIcon="person"></mat-icon>
+    <h4>Register</h4>
+  </div>
+  <br/>
+  <label>Name</label>
+  <input class="form-control" id="name" name="name" type="text" [(ngModel)]="name">
+  <br/>
+  <label>Email</label>
+  <input class="form-control" id="email" name="email" type="text" [(ngModel)]="email">
+  <br/>
+  <label>Password</label>
+  <div class="d-flex" style="align-items: center;">
+    <input class="form-control" id="password" name="password" type="{{showPassword ? 'text' : 'password'}}" [(ngModel)]="password">
+    <mat-icon (click)="toggleShowPassword()" class="icon mt-1 ml-2" style="font-size: 18px; cursor: pointer;" fontIcon="{{showPassword ? 'visibility_off' : 'visibility'}}"></mat-icon>
+  </div>
+  <br/>
+  <label>Confirm Password</label>
+  <div class="d-flex" style="align-items: center;">
+    <input class="form-control" id="password" name="password" type="{{showConfirmPassword ? 'text' : 'password'}}" [(ngModel)]="confirmPassword">
+    <mat-icon (click)="toggleShowConfirmPassword()" class="icon mt-1 ml-2" style="font-size: 18px; cursor: pointer;" fontIcon="{{showConfirmPassword ? 'visibility_off' : 'visibility'}}"></mat-icon>
+  </div>
+  <br/>
+  <div style="font-size:13.5px;">
+    Already a member ?
+    <a routerLink="/login">Login</a>
+    here.
+  </div>
+  <br/>
+  <input type="submit" value="Login" class="submitbutton" style="width:100%; text-align:center; background-color:var(--primary);">
+</form>

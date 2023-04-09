@@ -6,4 +6,12 @@ interface Product{
   description?:String
 }
 
-export { Product }
+interface User{
+  _id:String,
+  name:String,
+  email:String,
+  isAdmin:Boolean,
+  token:String
+}
+
+export { Product, User }

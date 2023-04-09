@@ -1,3 +1,13 @@
+<div class="d-flex" style="align-items:center;">
+  <h3>Products</h3>
+  <div class="back ml-auto" routerLink="/addproduct">
+    <button class="button back pb-2" style="background-color:black;">
+      <mat-icon class="icon mt-1 mb-0 mr-2 p-0" style="font-size: 18px; height: 20px;" fontIcon="add"></mat-icon>
+        Add Product
+    </button>
+  </div>
+</div>
+<mat-divider class="my-3"></mat-divider>
 <mat-spinner class="mx-auto my-5" strokeWidth="3" diameter="60" *ngIf="loading && products.length===0"></mat-spinner>
 <div class="d-flex home" style="flex-wrap: wrap;">
   <div class="card-container" *ngFor="let product of products">

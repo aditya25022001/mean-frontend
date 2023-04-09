@@ -1,0 +1,29 @@
+<form autocomplete="off" class="formcomponent mt-3 mx-auto border p-4 rounded" (ngSubmit)="addProduct()">
+  <div class="d-flex" style="align-items: center;">
+    <mat-icon class="icon mr-2 mb-2" style="font-size: 27px;" fontIcon="add_box"></mat-icon>
+    <h4>Add Product</h4>
+  </div>
+  <br/>
+  <label>
+    Product Name
+    <span style="color:var(--error)">*</span>
+  </label>
+  <input required class="form-control" id="productName" name="productName" type="text" [(ngModel)]="productName">
+  <br/>
+  <label>
+    Model Year
+    <span style="color:var(--error)">*</span>
+  </label>
+  <input required placeholder="yyyy (Ex : 2021)" class="form-control" id="modelYear" name="modelYear" type="text" [(ngModel)]="modelYear">
+  <br/>
+  <label>
+    Price
+    <span style="color:var(--error)">*</span>
+  </label>
+  <input required class="form-control" id="price" name="price" type="number" [(ngModel)]="price">
+  <br/>
+  <label>Description</label>
+  <textarea required class="form-control" id="description" name="description" type="number" [(ngModel)]="description"></textarea>
+  <br/>
+  <input type="submit" value="Add" class="submitbutton" style="width:100%; text-align:center; background-color:var(--primary);">
+</form>

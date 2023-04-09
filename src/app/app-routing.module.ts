@@ -3,9 +3,17 @@ import { RouterModule, Routes } from '@angular/router';
 import { ProductComponent } from './screens/product/product.component';
 import { HomeComponent } from './screens/home/home.component';
 import { ErrorComponent } from './screens/error/error.component';
+import { RegisterComponent } from './screens/register/register.component';
+import { LoginComponent } from './screens/login/login.component';
+import { AddProductComponent } from './screens/add-product/add-product.component';
+import { UpdateProductComponent } from './screens/update-product/update-product.component';
 
 const routes: Routes = [
   {path:"",component:HomeComponent},
+  {path:"addproduct",component:AddProductComponent},
+  {path:"update/:id",component:UpdateProductComponent},
+  {path:"register",component:RegisterComponent},
+  {path:"login",component:LoginComponent},
   {path:"product/:id",component:ProductComponent},
   {path:"**", component:ErrorComponent, pathMatch:"full"}
 ];

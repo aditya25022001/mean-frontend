@@ -11,6 +11,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ErrorComponent } from './screens/error/error.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { MatIconModule } from '@angular/material/icon';
+import { LoginComponent } from './screens/login/login.component';
+import { RegisterComponent } from './screens/register/register.component';
+import { FormsModule } from '@angular/forms';
+import { MatDividerModule } from '@angular/material/divider';
+import { UpdateProductComponent } from './screens/update-product/update-product.component';
+import { AddProductComponent } from './screens/add-product/add-product.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +25,11 @@ import { MatIconModule } from '@angular/material/icon';
     HeaderComponent,
     ProductComponent,
     ErrorComponent,
-    FooterComponent
+    FooterComponent,
+    LoginComponent,
+    RegisterComponent,
+    UpdateProductComponent,
+    AddProductComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +37,9 @@ import { MatIconModule } from '@angular/material/icon';
     BrowserAnimationsModule,
     HttpClientModule,
     MatProgressSpinnerModule,
-    MatIconModule
+    MatIconModule,
+    FormsModule,
+    MatDividerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
