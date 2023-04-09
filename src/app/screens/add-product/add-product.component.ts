@@ -13,15 +13,37 @@ export class AddProductComponent {
   modelYear:String = ""
   price:Number = 0
   description:String = ""
+  message:String=""
+  loading:Boolean = false
+  success:Boolean = false
 
   constructor(private productService:ProductService, private router:Router){}
 
   addProduct(){
     if(this.productName==="" || this.modelYear==="" || this.price===0) alert("* marked fields are required")
-    else this.productService.addProduct(this.productName,this.modelYear,this.price,this.description).subscribe((data) => {
-      this.router.navigate(["/"])
-      console.log(data)
-    });
+    else{
+      this.loading=true
+      this.productService.addProduct(this.productName,this.modelYear,this.price,this.description)
+      .subscribe({
+        next:(res) => {
+          this.message = res.message
+          this.loading = false
+          this.success = true
+          setTimeout(() => {
+            this.router.navigate(["/"])
+            this.success = false
+          },2500)
+        },
+        error:(err) =>{
+          this.message=err.error.message
+          this.success=false
+          this.loading=false
+          setTimeout(() => {
+            this.message=""
+          },2500)
+        }
+      });
+    }
   }
 
 }

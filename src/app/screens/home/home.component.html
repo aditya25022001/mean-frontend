@@ -19,3 +19,4 @@
     </div>
   </div>
 </div>
+<app-toast *ngIf="error.length>0 && !loading" message="{{error}}"></app-toast>

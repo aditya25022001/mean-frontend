@@ -17,6 +17,7 @@ import { FormsModule } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
 import { UpdateProductComponent } from './screens/update-product/update-product.component';
 import { AddProductComponent } from './screens/add-product/add-product.component';
+import { ToastComponent } from './components/toast/toast.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { AddProductComponent } from './screens/add-product/add-product.component
     LoginComponent,
     RegisterComponent,
     UpdateProductComponent,
-    AddProductComponent
+    AddProductComponent,
+    ToastComponent
   ],
   imports: [
     BrowserModule,

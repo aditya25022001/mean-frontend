@@ -15,6 +15,9 @@ export class UpdateProductComponent {
   price:Number = 0
   description:String = ""
   productId:String = ""
+  message:String=""
+  loading:Boolean = false
+  success:Boolean = false
 
   constructor(private productService:ProductService, private router:Router){}
 
@@ -29,9 +32,27 @@ export class UpdateProductComponent {
   }
 
   updateProduct():void{
-    this.productService.updateProduct(this.productId,this.productName,this.modelYear,this.price,this.description).subscribe((data) => {
-      console.log(data)
-      this.router.navigate(["/product",`${this.productId}`])
+    this.loading=true
+    this.productService.updateProduct(this.productId,this.productName,this.modelYear,this.price,this.description)
+    .subscribe({
+      next:(res) => {
+        this.message = res.message
+        this.loading = false
+        this.success = true
+        setTimeout(() => {
+          this.router.navigate(["/product",`${this.productId}`])
+          this.success = false
+        },2500)
+      },
+      error:(err) => {
+        this.message=err.error.message
+        this.success=false
+        this.loading=false
+        setTimeout(() => {
+          this.message=""
+          window.location.reload()
+        },2500)
+      }
     })
   }
 

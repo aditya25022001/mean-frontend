@@ -12,13 +12,25 @@ export class HomeComponent {
   products:Product[] = []
   rupeeSign:String = String.fromCharCode(8377)
   loading:boolean = true
+  error:String = ""
 
   constructor(private productService:ProductService){}
 
   ngOnInit():void{
     setTimeout(() => {
-      this.productService.getProducts().subscribe((response) => this.products=response.products);
-      this.loading=false
+      this.productService.getProducts().subscribe({
+        next:(res) => {
+          this.products = res.products,
+          this.loading=false
+        },
+        error:(error) => {
+          this.error=error.error.message
+          this.loading=false
+          setTimeout(() => {
+            this.error = ""
+          },2500)
+        }
+      })
     },1500)
   }
 

@@ -12,19 +12,48 @@ export class ProductComponent {
 
   product:Product | undefined
   rupeeSign = String.fromCharCode(8377)
+  message:String = ""
+  loading:Boolean = false
+  success:Boolean = false
 
   constructor(private productService:ProductService, private router:Router){}
 
   ngOnInit():void{
-    this.productService.getProductById(this.router.url.split("/")[2]).subscribe((response) => this.product=response.product);
+    this.loading = true
+    this.productService.getProductById(this.router.url.split("/")[2]).subscribe({
+      next:(res) => {
+        this.loading=false
+        this.product=res.product
+      },
+      error:(err) => {
+        this.message=err.error.message
+        setTimeout(()=>{
+          this.router.navigate(["/"])
+        },2500)
+      }
+    });
   }
 
   deleteProduct():void{
-    this.productService.deleteProduct(this.router.url.split("/")[2]).subscribe((response) => {
-      console.log(response)
-      setTimeout(() => {
-        this.router.navigate(["/"]);
-      },1500)
+    this.loading=true
+    this.productService.deleteProduct(this.router.url.split("/")[2])
+    .subscribe({
+      next:(res) => {
+        this.loading=false
+        this.success=true
+        this.message = res.message
+        setTimeout(()=>{
+          this.router.navigate(["/"])
+        },2500)
+      },
+      error:(err) => {
+        this.loading=false
+        this.success=false
+        this.message = err.error.message
+        setTimeout(()=>{
+          this.router.navigate(["/"])
+        },2500)
+      }
     });
   }
 
