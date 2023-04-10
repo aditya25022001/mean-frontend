@@ -1,24 +1,36 @@
-<form autocomplete="off" class="formcomponent mx-auto border p-4 rounded" (ngSubmit)="login()">
+<mat-spinner class="mx-auto my-5" strokeWidth="3" diameter="60" *ngIf="loading"></mat-spinner>
+<form ngNativeValidate autocomplete="off" class="formcomponent mx-auto border p-4 rounded" *ngIf="!loading" (ngSubmit)="login()">
+
   <div class="d-flex" style="align-items: center;">
     <mat-icon class="icon mr-1 mb-1" style="font-size: 23px;" fontIcon="lock"></mat-icon>
     <h4>Login</h4>
   </div>
+
   <br/>
+
   <label>Email</label>
-  <input class="form-control" id="email" name="email" type="text" [(ngModel)]="email">
+  <input class="form-control" id="email" required name="email" #email ngModel type="email">
+
   <br/>
+
   <label>Password</label>
   <div class="d-flex" style="align-items: center;">
-    <input class="form-control" id="password" name="password" type="{{showPassword ? 'text' : 'password'}}" [(ngModel)]="password">
+    <input class="form-control" id="password" name="password" #password ngModel required type="{{showPassword ? 'text' : 'password'}}">
     <mat-icon (click)="toggleShowPassword()" class="icon mt-1 ml-2" style="font-size: 18px; cursor: pointer;" fontIcon="{{showPassword ? 'visibility_off' : 'visibility'}}"></mat-icon>
   </div>
+
   <br/>
+
   <div style="font-size:13.5px;">
     New to this portal ?
     <a routerLink="/register">Register</a>
     here.
   </div>
+
   <br/>
+
   <input type="submit" value="Login" class="submitbutton" style="width:100%; text-align:center; background-color:var(--primary);">
+
 </form>
 
+<app-toast *ngIf="message.length>0 || success" color="{{ success ? 'var(--success)' : 'var(--error)' }}" message="{{ message }}"></app-toast>

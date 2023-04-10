@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './screens/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ProductComponent } from './screens/product/product.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ErrorComponent } from './screens/error/error.component';
 import { FooterComponent } from './components/footer/footer.component';

@@ -1,3 +1,4 @@
+<mat-spinner class="mx-auto my-5" strokeWidth="3" diameter="60" *ngIf="loading"></mat-spinner>
 <form autocomplete="off" class="formcomponent mx-auto border p-4 rounded">
   <div class="d-flex" style="align-items: center;">
     <mat-icon class="icon mr-1 mb-1" style="font-size: 23px;" fontIcon="person"></mat-icon>
@@ -30,3 +31,4 @@
   <br/>
   <input type="submit" value="Login" class="submitbutton" style="width:100%; text-align:center; background-color:var(--primary);">
 </form>
+<app-toast *ngIf="message.length>0 || success" color="{{ success ? 'var(--success)' : 'var(--error)' }}" message="{{ message }}"></app-toast>

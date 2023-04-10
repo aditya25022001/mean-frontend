@@ -19,12 +19,13 @@ export class UserService {
 
   constructor(private http:HttpClient) { }
 
-  register(email:string, password:string, name:string):Observable<User>{
-    return this.http.post<User>(`${this.apiURL}/api/v1/users/register`,{ email, password, name },httpOptions);
+  ngOnInit():void{ }
+
+  register(email:string, password:string, name:string):Observable<{message:String, user:User}>{
+    return this.http.post<{message:String, user:User}>(`${this.apiURL}/api/v1/users/register`,{ email, password, name },httpOptions);
   }
 
-  login(email:String, password:String):Observable<User>{
-    return this.http.post<User>(`${this.apiURL}/api/v1/users/login`,{ email, password },httpOptions);
+  login(email:String, password:String):Observable<{message:String, user:User}>{
+    return this.http.post<{message:String, user:User}>(`${this.apiURL}/api/v1/users/login`,{ email, password },httpOptions);
   }
-
 }

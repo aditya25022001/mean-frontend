@@ -104,6 +104,7 @@ button:active, .button:active{
 
 .formcomponent{
   width:38%;
+  margin-top: 52px;
 }
 
 .form-control{

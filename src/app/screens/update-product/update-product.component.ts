@@ -50,7 +50,7 @@ export class UpdateProductComponent {
         this.loading=false
         setTimeout(() => {
           this.message=""
-          window.location.reload()
+          location.reload()
         },2500)
       }
     })
