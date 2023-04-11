@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable, exhaustMap, map, switchMap } from 'rxjs';
+import { AppState } from 'src/app/app.state';
 
 @Component({
   selector: 'app-header',
@@ -7,8 +10,14 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
 
-  constructor(){ }
+  name!:Observable<String>
+  initial!:String
 
-  ngOnInit():void{}
+  constructor(private store:Store<AppState>){}
+
+  ngOnInit():void{
+    // this.store.select(state => state.auth.user.name[0]).subscribe(d => this.initial=d);
+    this.name = this.store.select(state => state.auth.user.name)
+  }
 
 }

@@ -1,0 +1,82 @@
+import { createAction } from "@ngrx/store";
+import { User } from "../interfaces";
+Action
+----------
+import { props } from "@ngrx/store";
+
+export interface AuthState{
+  user:User
+}
+
+export const initialState:AuthState = {
+  user:JSON.parse(localStorage.getItem("userInfo") || '{}')
+}
+
+export enum LoginTypes{
+  LOGIN_REQUEST = "LOGIN_REQUEST",
+  LOGIN_SUCCESS = "LOGIN_SUCCESS",
+  LOGIN_FAIL = "LOGIN_FAIL",
+}
+
+export const loginRequest = createAction(LoginTypes.LOGIN_REQUEST,props<{ email:String, password:String }>())
+export const loginSuccess = createAction(LoginTypes.LOGIN_SUCCESS,props<{ user:User }>())
+export const loginFail = createAction(LoginTypes.LOGIN_FAIL,props<{ message:String }>())
+
+Reducer
+----------------
+import { loginSuccess } from "./action";
+import { createReducer, on } from '@ngrx/store';
+import { initialState } from "./action";
+import { User } from "../interfaces";
+
+const authReducer = createReducer(
+  initialState,
+  on(loginSuccess,(state,action)=>{
+    return {
+      ...state,
+      user:action.user
+    }
+  })
+)
+
+export function AuthReducer(state: { user: User; } | undefined,action: any){
+  return authReducer(state,action)
+}
+
+Effects
+----------------------
+import { Injectable } from "@angular/core";
+import { UserService } from "../services/user.service";
+import { exhaustMap, map } from "rxjs/operators"
+import { loginRequest, loginSuccess } from "./action";
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+
+@Injectable()
+export class AuthEffect{
+
+  constructor(private actions:Actions, private userService:UserService) {}
+
+  login = createEffect(() => {
+    return this.actions
+    .pipe(ofType(loginRequest),
+      exhaustMap((action) => {
+        return this.userService.login(action.email,action.password)
+        .pipe(map((data) => {
+          localStorage.setItem('userInfo',JSON.stringify(data.user))
+          return loginSuccess({user:data.user})
+        }))
+    }))
+  })
+}
+
+selector
+-------------------
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { AuthState } from './action';
+
+const getUserState = createFeatureSelector<AuthState>("auth")
+
+export const getUser = createSelector(getUserState,(state)=>{
+  return state.user
+})
+

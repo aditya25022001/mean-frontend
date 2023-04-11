@@ -20,6 +20,10 @@ import { AddProductComponent } from './screens/add-product/add-product.component
 import { ToastComponent } from './components/toast/toast.component';
 import { StarComponent } from './components/star/star.component';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects'
+import { AuthEffect } from './redux/login';
+import { appReducer } from './app.state';
 
 @NgModule({
   declarations: [
@@ -46,9 +50,11 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     FormsModule,
     ReactiveFormsModule,
     MatDividerModule,
+    StoreModule.forRoot(appReducer),
+    EffectsModule.forRoot([AuthEffect]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
-  providers: [],
+  providers: [AuthEffect],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

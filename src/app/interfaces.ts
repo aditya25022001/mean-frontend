@@ -14,4 +14,8 @@ interface User{
   token:String
 }
 
-export { Product, User }
+interface AuthState{
+  user:User
+}
+
+export { Product, User, AuthState }
