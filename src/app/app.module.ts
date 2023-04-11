@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -6,18 +6,20 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './screens/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ProductComponent } from './screens/product/product.component';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ErrorComponent } from './screens/error/error.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { MatIconModule } from '@angular/material/icon';
 import { LoginComponent } from './screens/login/login.component';
 import { RegisterComponent } from './screens/register/register.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
 import { UpdateProductComponent } from './screens/update-product/update-product.component';
 import { AddProductComponent } from './screens/add-product/add-product.component';
 import { ToastComponent } from './components/toast/toast.component';
+import { StarComponent } from './components/star/star.component';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,8 @@ import { ToastComponent } from './components/toast/toast.component';
     RegisterComponent,
     UpdateProductComponent,
     AddProductComponent,
-    ToastComponent
+    ToastComponent,
+    StarComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +44,9 @@ import { ToastComponent } from './components/toast/toast.component';
     MatProgressSpinnerModule,
     MatIconModule,
     FormsModule,
-    MatDividerModule
+    ReactiveFormsModule,
+    MatDividerModule,
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
   providers: [],
   bootstrap: [AppComponent]

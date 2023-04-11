@@ -1,5 +1,5 @@
 <mat-spinner class="mx-auto my-5" strokeWidth="3" diameter="60" *ngIf="loading"></mat-spinner>
-<form autocomplete="off" class="formcomponent mt-3 mx-auto border p-4 rounded" (ngSubmit)="addProduct()">
+<form autocomplete="off" class="formcomponent mt-3 mx-auto border p-4 rounded" [formGroup]="addProductForm" (ngSubmit)="addProduct()">
   <div class="d-flex" style="align-items: center;">
     <mat-icon class="icon mr-2 mb-2" style="font-size: 27px;" fontIcon="add_box"></mat-icon>
     <h4>Add Product</h4>
@@ -7,25 +7,46 @@
   <br/>
   <label>
     Product Name
-    <span style="color:var(--error)">*</span>
+    <app-star></app-star>
   </label>
-  <input required class="form-control" id="productName" name="productName" type="text" [(ngModel)]="productName">
+  <input required class="form-control" id="productName" formControlName="productName" type="text">
+  <div *ngIf="addProductForm.get('productName')?.touched && !addProductForm.get('productName')?.valid" style="color:var(--error); font-size: 12px;">
+    Product name is required
+  </div>
   <br/>
   <label>
     Model Year
-    <span style="color:var(--error)">*</span>
+    <app-star></app-star>
   </label>
-  <input required placeholder="yyyy (Ex : 2021)" class="form-control" id="modelYear" name="modelYear" type="text" [(ngModel)]="modelYear">
+  <input required placeholder="yyyy (Ex : 2021)" class="form-control" id="modelYear" formControlName="modelYear" type="text">
+  <div *ngIf="addProductForm.get('modelYear')?.touched && !addProductForm.get('modelYear')?.valid" style="color:var(--error); font-size: 12px;">
+    <div *ngIf="addProductForm.get('modelYear')?.value.length===0  else elseblock">Model year is required</div>
+    <ng-template #elseblock >Model year should be of form YYYY</ng-template>
+  </div>
   <br/>
   <label>
     Price
-    <span style="color:var(--error)">*</span>
+    <app-star></app-star>
   </label>
-  <input required class="form-control" id="price" name="price" type="number" [(ngModel)]="price">
+  <input required class="form-control" id="price" formControlName="price" type="number">
+  <div *ngIf="addProductForm.get('price')?.touched && !addProductForm.get('price')?.valid" style="color:var(--error); font-size: 12px;">
+    Price is required & cannot be 0
+  </div>
   <br/>
   <label>Description</label>
-  <textarea required class="form-control" id="description" name="description" type="number" [(ngModel)]="description"></textarea>
+  <textarea class="form-control" id="description" formControlName="description"></textarea>
   <br/>
   <input type="submit" value="Add" class="submitbutton" style="width:100%; text-align:center; background-color:var(--primary);">
 </form>
 <app-toast *ngIf="success || message.length>0" color="{{success ? 'var(--success)' : 'var(--error)'}}" message="{{message}}"></app-toast>
+
+
+<!--
+  <input class="form-control" id="productName" type="text" name="productName" #productName="ngModel" ngModel required>
+  <div *ngIf="productName.touched && productName.errors?.['required']" style="color:var(--error)">
+    name is required
+  </div>
+  <input required placeholder="yyyy (Ex : 2021)" class="form-control" name="modelYear" id="modelYear" #modelYear="ngModel" ngModel type="text">
+  <input required class="form-control" id="price" name="price" ngModel #price="ngModel" type="number">
+  <textarea required class="form-control" id="description" name="description" ngModel #description="ngModel"></textarea>
+-->

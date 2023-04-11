@@ -7,10 +7,8 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
 
-  showProfile:Boolean = false
-  userName:String = ""
-
   constructor(){ }
+
   ngOnInit():void{}
 
 }

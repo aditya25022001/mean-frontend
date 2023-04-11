@@ -1,3 +1,4 @@
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductService } from 'src/app/services/product.service';
@@ -17,13 +18,22 @@ export class AddProductComponent {
   loading:Boolean = false
   success:Boolean = false
 
-  constructor(private productService:ProductService, private router:Router){}
+  addProductForm!: FormGroup
+
+  constructor(private productService:ProductService, private router:Router){
+    this.addProductForm = new FormGroup({
+      productName : new FormControl('',[Validators.required]),
+      modelYear : new FormControl('',[Validators.required, Validators.minLength(4), Validators.maxLength(4)]),
+      price : new FormControl(0,[Validators.required, Validators.min(1)]),
+      description : new FormControl('')
+    })
+  }
 
   addProduct(){
-    if(this.productName==="" || this.modelYear==="" || this.price===0) alert("* marked fields are required")
-    else{
-      this.loading=true
-      this.productService.addProduct(this.productName,this.modelYear,this.price,this.description)
+    const { productName, modelYear, price, description } = this.addProductForm.value
+    this.loading=true
+    if(this.addProductForm.valid){
+      this.productService.addProduct(productName,modelYear,price,description)
       .subscribe({
         next:(res) => {
           this.message = res.message
@@ -39,11 +49,18 @@ export class AddProductComponent {
           this.success=false
           this.loading=false
           setTimeout(() => {
+            this.addProductForm.reset()
             this.message=""
           },2500)
         }
       });
     }
+    else{
+      this.message="Invalid details!"
+      setTimeout(() => {
+        this.message=""
+        this.loading=false
+      },2500)
+    }
   }
-
 }

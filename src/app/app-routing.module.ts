@@ -12,8 +12,9 @@ const routes: Routes = [
   {path:"",component:HomeComponent},
   {path:"addproduct",component:AddProductComponent},
   {path:"update/:id",component:UpdateProductComponent},
-  {path:"register",component:RegisterComponent},
+  {path:"product/:id",component:ProductComponent},
   {path:"login",component:LoginComponent},
+  {path:"register",component:RegisterComponent},
   {path:"product/:id",component:ProductComponent},
   {path:"**", component:ErrorComponent, pathMatch:"full"}
 ];

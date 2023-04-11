@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { Router } from '@angular/router';
-import { NgForm } from '@angular/forms'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
 
 @Component({
   selector: 'app-login',
@@ -10,20 +10,21 @@ import { NgForm } from '@angular/forms'
 })
 export class LoginComponent {
 
-  email:string = ""
-  password:string = ""
   showPassword:boolean = false
-  loading:Boolean = true
+  loading:Boolean = false
   message:String = ""
   success:Boolean = false
 
-  constructor(private userService:UserService, private router:Router){}
+  loginForm!: FormGroup;
 
-  ngOnInit():void{
-    setTimeout(() => {
-      this.loading=false
-    },1500)
+  constructor(private userService:UserService, private router:Router){
+    this.loginForm = new FormGroup({
+      email : new FormControl('', [Validators.required, Validators.email]),
+      password : new FormControl('', [Validators.required]),
+    })
   }
+
+  ngOnInit():void{ }
 
   toggleShowPassword():void{
     this.showPassword = !this.showPassword
@@ -31,26 +32,35 @@ export class LoginComponent {
 
   login(){
     this.loading=true
-    this.userService.login(this.email, this.password)
-    .subscribe({
-      next:(res) => {
+    const { email, password } = this.loginForm.value
+    if(this.loginForm.valid)
+      this.userService.login(email, password)
+      .subscribe({
+        next:(res) => {
+          this.loading=false
+          this.success=true
+          this.message=`Logged in with ${email}`
+          localStorage.setItem("useInfo",JSON.stringify(res.user));
+          setTimeout(()=>{
+            this.router.navigate(["/"])
+          },2500)
+        },
+        error:(err) => {
+          this.success=false
+          this.loading=false
+          this.message=err.error.message
+          setTimeout(() => {
+            this.message=""
+            this.loginForm.reset()
+          },2500)
+        }
+      })
+    else {
+      this.message="Invalid details!"
+      setTimeout(() => {
+        this.message=""
         this.loading=false
-        this.success=true
-        this.message=`Logged in with ${this.email}`
-        localStorage.setItem("useInfo",JSON.stringify(res.user));
-        setTimeout(()=>{
-          this.router.navigate(["/"])
-        },2500)
-      },
-      error:(err) => {
-        this.success=false
-        this.loading=false
-        this.message=err.error.message
-        setTimeout(() => {
-          this.message=""
-        },2500)
-      }
-    })
+      },2150)
+    }
   }
-
 }

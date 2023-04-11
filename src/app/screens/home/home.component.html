@@ -1,7 +1,7 @@
 <div class="d-flex" style="align-items:center;">
   <h3>Products</h3>
-  <div class="back ml-auto" routerLink="/addproduct">
-    <button class="button back pb-2" style="background-color:black;">
+  <div class="ml-auto" routerLink="/addproduct">
+    <button class="button pb-2" style="background-color:black;">
       <mat-icon class="icon mt-1 mb-0 mr-2 p-0" style="font-size: 18px; height: 20px;" fontIcon="add"></mat-icon>
         Add Product
     </button>
@@ -14,7 +14,7 @@
     <div class="productcard" routerLink="/product/{{product.productId}}">
       <img src="../../assets/elec.jpeg" style="width:100%;">
       <div><strong>Product Name : </strong>{{product.productName}}</div>
-      <div><strong>Price : </strong>{{rupeeSign}} {{product.price}}</div>
+      <div><strong>Price : </strong>{{ product.price  | currency:'INR'}}</div>
       <div><strong>Description : </strong>{{product.description}}</div>
     </div>
   </div>

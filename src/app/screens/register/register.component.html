@@ -1,26 +1,48 @@
 <mat-spinner class="mx-auto my-5" strokeWidth="3" diameter="60" *ngIf="loading"></mat-spinner>
-<form autocomplete="off" class="formcomponent mx-auto border p-4 rounded">
+<form autocomplete="off" class="formcomponent mx-auto border p-4 rounded" [formGroup]="registerForm" (ngSubmit)="register()">
   <div class="d-flex" style="align-items: center;">
     <mat-icon class="icon mr-1 mb-1" style="font-size: 23px;" fontIcon="person"></mat-icon>
     <h4>Register</h4>
   </div>
   <br/>
   <label>Name</label>
-  <input class="form-control" id="name" name="name" type="text" [(ngModel)]="name">
+  <app-star class="ml-1"></app-star>
+  <input class="form-control" id="name" formControlName="name" type="text">
+  <div *ngIf="registerForm.get('name')?.touched && !registerForm.get('name')?.valid" style="color: var(--error); font-size: 12px;">
+    Name is required
+  </div>
   <br/>
   <label>Email</label>
-  <input class="form-control" id="email" name="email" type="text" [(ngModel)]="email">
+  <app-star class="ml-1"></app-star>
+  <input class="form-control" id="email" formControlName="email" type="text">
+  <div *ngIf="registerForm.get('email')?.touched && !registerForm.get('email')?.valid" style="color: var(--error); font-size: 12px;">
+    <div *ngIf="registerForm.get('email')?.errors?.['required'] else elseblock" style="color: var(--error); font-size: 12px;">
+      Email is required
+    </div>
+    <ng-template #elseblock>Invalid email</ng-template>
+  </div>
   <br/>
   <label>Password</label>
+  <app-star class="ml-1"></app-star>
   <div class="d-flex" style="align-items: center;">
-    <input class="form-control" id="password" name="password" type="{{showPassword ? 'text' : 'password'}}" [(ngModel)]="password">
+    <input class="form-control" id="password" formControlName="password" type="{{showPassword ? 'text' : 'password'}}">
     <mat-icon (click)="toggleShowPassword()" class="icon mt-1 ml-2" style="font-size: 18px; cursor: pointer;" fontIcon="{{showPassword ? 'visibility_off' : 'visibility'}}"></mat-icon>
+  </div>
+  <div *ngIf="registerForm.get('password')?.touched && !registerForm.get('password')?.valid" style="color: var(--error); font-size: 12px;">
+    Minimum 8 characters
   </div>
   <br/>
   <label>Confirm Password</label>
+  <app-star class="ml-1"></app-star>
   <div class="d-flex" style="align-items: center;">
-    <input class="form-control" id="password" name="password" type="{{showConfirmPassword ? 'text' : 'password'}}" [(ngModel)]="confirmPassword">
+    <input class="form-control" id="confirmPassword" formControlName="confirmPassword" type="{{showConfirmPassword ? 'text' : 'password'}}">
     <mat-icon (click)="toggleShowConfirmPassword()" class="icon mt-1 ml-2" style="font-size: 18px; cursor: pointer;" fontIcon="{{showConfirmPassword ? 'visibility_off' : 'visibility'}}"></mat-icon>
+  </div>
+  <div *ngIf="registerForm.get('confirmPassword')?.touched && !registerForm.get('confirmPassword')?.valid" style="color: var(--error); font-size: 12px;">
+    Minimum 8 characters
+  </div>
+  <div *ngIf="!passwordMatch()" style="color: var(--error); font-size: 12px;">
+    Passwords do not match
   </div>
   <br/>
   <div style="font-size:13.5px;">
@@ -29,6 +51,10 @@
     here.
   </div>
   <br/>
-  <input type="submit" value="Login" class="submitbutton" style="width:100%; text-align:center; background-color:var(--primary);">
+  <input type="submit" [disabled]="!registerForm.valid || !passwordMatch()" value="Register" class="submitbutton" style="width:100%; text-align:center; background-color:var(--primary);">
 </form>
 <app-toast *ngIf="message.length>0 || success" color="{{ success ? 'var(--success)' : 'var(--error)' }}" message="{{ message }}"></app-toast>
+<!-- <form #rForm="ngForm">
+  <input name="email" #email="ngModel" ngModel type="email" email required>
+  <div *ngIf="email.touched && email.errors?.['requied']">invalid email</div>
+</form> -->

@@ -1,7 +1,7 @@
 interface Product{
   productId:String,
   productName:String,
-  price:Number,
+  price:number,
   modelYear:String,
   description?:String
 }

@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 export class ProductComponent {
 
   product:Product | undefined
-  rupeeSign = String.fromCharCode(8377)
   message:String = ""
   loading:Boolean = false
   success:Boolean = false

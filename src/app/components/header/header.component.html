@@ -1,8 +1,5 @@
 <div class="toolbar" role="banner">
-  <h5 class="ml-3 mt-1">Product Management</h5>
+  <h5 class="ml-3 mt-1" style="cursor:pointer;" routerLink="/">Product Management</h5>
     <div class="spacer"></div>
-    <div class="mr-3" *ngIf="!showProfile" else elseblock style="cursor:pointer;" routerLink="/login">Login</div>
-    <div class="mr-3" #elseblock style="cursor:pointer;" routerLink="/">
-      {{userName[0]}}
-    </div>
+    <div class="mr-3" style="cursor:pointer;" routerLink="/login">Login</div>
 </div>

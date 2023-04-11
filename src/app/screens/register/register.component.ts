@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { Router } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -9,10 +10,6 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent {
 
-  name:string = ""
-  email:string = ""
-  password:string = ""
-  confirmPassword:string = ""
   showPassword:boolean = false
   showConfirmPassword:boolean = false
 
@@ -20,7 +17,16 @@ export class RegisterComponent {
   message:String = ""
   success:Boolean = false
 
-  constructor(private userService:UserService, private router:Router){}
+  registerForm!: FormGroup
+
+  constructor(private userService:UserService, private router:Router){
+    this.registerForm = new FormGroup({
+      name:new FormControl('',[Validators.required]),
+      email: new FormControl("",[Validators.required, Validators.email]),
+      password: new FormControl("",[Validators.required, Validators.minLength(8)]),
+      confirmPassword: new FormControl("",[Validators.required, Validators.minLength(8)])
+    })
+  }
 
   ngOnInit():void{}
 
@@ -32,27 +38,40 @@ export class RegisterComponent {
     this.showConfirmPassword = !this.showConfirmPassword
   }
 
+  passwordMatch():boolean{
+    return this.registerForm.get("password")?.value===this.registerForm.get("confirmPassword")?.value
+  }
+
   register(){
     this.loading=true
-    this.userService.register(this.email,this.password,this.name)
-    .subscribe({
-      next:(res) => {
+    const { email, name, password } = this.registerForm.value
+    if(this.registerForm.valid)
+      this.userService.register(email,password,name)
+      .subscribe({
+        next:(res) => {
+          this.loading=false
+          this.message=res.message
+          this.success=true
+          localStorage.setItem("useInfo",JSON.stringify(res.user));
+          setTimeout(()=>{
+            this.router.navigate(["/"])
+          },2500)
+        },
+        error:(err) => {
+          this.success=false
+          this.loading=false
+          this.message=err.error.message
+          setTimeout(() => {
+            this.message=""
+          },2500)
+        }
+      });
+    else {
+      this.message="Invalid details!"
+      setTimeout(() => {
+        this.message=""
         this.loading=false
-        this.message=res.message
-        this.success=true
-        localStorage.setItem("useInfo",JSON.stringify(res.user));
-        setTimeout(()=>{
-          this.router.navigate(["/"])
-        },2500)
-      },
-      error:(err) => {
-        this.success=false
-        this.loading=false
-        this.message=err.error.message
-        setTimeout(() => {
-          this.message=""
-        },2500)
-      }
-    });
+      },2150)
+    }
   }
 }
