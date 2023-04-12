@@ -1,4 +1,3 @@
-<mat-spinner class="mx-auto my-5" strokeWidth="3" diameter="60" *ngIf="loading"></mat-spinner>
 <form autocomplete="off" class="formcomponent mt-3 mx-auto border p-4 rounded" [formGroup]="addProductForm" (ngSubmit)="addProduct()">
   <div class="d-flex" style="align-items: center;">
     <mat-icon class="icon mr-2 mb-2" style="font-size: 27px;" fontIcon="add_box"></mat-icon>
@@ -38,8 +37,6 @@
   <br/>
   <input type="submit" value="Add" class="submitbutton" style="width:100%; text-align:center; background-color:var(--primary);">
 </form>
-<app-toast *ngIf="success || message.length>0" color="{{success ? 'var(--success)' : 'var(--error)'}}" message="{{message}}"></app-toast>
-
 
 <!--
   <input class="form-control" id="productName" type="text" name="productName" #productName="ngModel" ngModel required>

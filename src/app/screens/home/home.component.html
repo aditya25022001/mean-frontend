@@ -8,7 +8,6 @@
   </div>
 </div>
 <mat-divider class="my-3"></mat-divider>
-<mat-spinner class="mx-auto my-5" strokeWidth="3" diameter="60" *ngIf="loading && products.length===0"></mat-spinner>
 <div class="d-flex home" style="flex-wrap: wrap;">
   <div class="card-container" *ngFor="let product of products">
     <div class="productcard" routerLink="/product/{{product.productId}}">
@@ -19,4 +18,3 @@
     </div>
   </div>
 </div>
-<app-toast *ngIf="error.length>0 && !loading" message="{{error}}"></app-toast>

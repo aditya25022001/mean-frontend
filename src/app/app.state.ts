@@ -1,8 +1,12 @@
 import { LoginReducer } from './redux/login';
-import { AuthState } from './interfaces';
+import { AuthState, SharedState } from './interfaces';
+import { SharedReducer } from './redux/shared';
 
 export interface AppState {
-  auth: AuthState;
+  login: AuthState;
+  register: AuthState;
+  loading:boolean,
+  
 }
 
 export const initialState = {
@@ -11,4 +15,5 @@ export const initialState = {
 
 export const appReducer = {
   login: LoginReducer,
+  shared: SharedReducer
 };

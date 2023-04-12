@@ -1,5 +1,4 @@
-<mat-spinner class="mx-auto my-5" strokeWidth="3" diameter="60" *ngIf="loading"></mat-spinner>
-<form autocomplete="off" class="formcomponent mt-3 mx-auto border p-4 rounded" (ngSubmit)="updateProduct()">
+<form autocomplete="off" [formGroup]="updateProductForm" class="formcomponent mt-3 mx-auto border p-4 rounded" (ngSubmit)="updateProduct()">
   <div class="d-flex" style="align-items: center;">
     <mat-icon class="icon mr-2 mb-2" style="font-size: 27px;" fontIcon="edit_box"></mat-icon>
     <h4>Update Product</h4>
@@ -7,25 +6,34 @@
   <br/>
   <label>
     Product Name
-    <span style="color:var(--error)">*</span>
+    <app-star></app-star>
   </label>
-  <input required class="form-control" id="productName" name="productName" type="text" [(ngModel)]="productName">
+  <input required class="form-control" id="productName" name="productName" type="text" formControlName="productName">
+  <div *ngIf="updateProductForm.get('productName')?.touched && !updateProductForm.get('productName')?.valid" style="color:var(--error); font-size: 12px;">
+    Product name is required
+  </div>
   <br/>
   <label>
     Model Year
-    <span style="color:var(--error)">*</span>
+    <app-star></app-star>
   </label>
-  <input required placeholder="yyyy (Ex : 2021)" class="form-control" id="modelYear" name="modelYear" type="text" [(ngModel)]="modelYear">
+  <input required placeholder="yyyy (Ex : 2021)" class="form-control" id="modelYear" name="modelYear" type="text" formControlName="modelYear">
+  <div *ngIf="updateProductForm.get('modelYear')?.touched && !updateProductForm.get('modelYear')?.valid" style="color:var(--error); font-size: 12px;">
+    <div *ngIf="updateProductForm.get('modelYear')?.value.length===0  else elseblock">Model year is required</div>
+    <ng-template #elseblock >Model year should be of form YYYY</ng-template>
+  </div>
   <br/>
   <label>
     Price
-    <span style="color:var(--error)">*</span>
+    <app-star></app-star>
   </label>
-  <input required class="form-control" id="price" name="price" type="number" [(ngModel)]="price">
+  <input required class="form-control" id="price" name="price" type="number" formControlName="price">
+  <div *ngIf="updateProductForm.get('price')?.touched && !updateProductForm.get('price')?.valid" style="color:var(--error); font-size: 12px;">
+    Price is required & cannot be 0
+  </div>
   <br/>
   <label>Description</label>
-  <textarea required class="form-control" id="description" name="description" type="number" [(ngModel)]="description"></textarea>
+  <textarea required class="form-control" id="description" name="description" type="number" formControlName="description"></textarea>
   <br/>
   <input type="submit" value="Update" class="submitbutton" style="width:100%; text-align:center; background-color:var(--primary);">
 </form>
-<app-toast *ngIf="success || message.length>0" color="{{success ? 'var(--success)' : 'var(--error)'}}" message="{{message}}"></app-toast>

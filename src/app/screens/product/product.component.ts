@@ -2,6 +2,7 @@ import { Product } from 'src/app/interfaces';
 import { Component } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
 import { Router } from '@angular/router';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-product',
@@ -11,21 +12,18 @@ import { Router } from '@angular/router';
 export class ProductComponent {
 
   product:Product | undefined
-  message:String = ""
-  loading:Boolean = false
-  success:Boolean = false
 
-  constructor(private productService:ProductService, private router:Router){}
+  constructor(private productService:ProductService, private router:Router, private sharedService:SharedService){}
 
   ngOnInit():void{
-    this.loading = true
+    this.sharedService.loading(true)
     this.productService.getProductById(this.router.url.split("/")[2]).subscribe({
       next:(res) => {
-        this.loading=false
+        this.sharedService.loading(false)
         this.product=res.product
       },
       error:(err) => {
-        this.message=err.error.message
+        this.sharedService.toast(true,<string>err.error.message,"var(--error)")
         setTimeout(()=>{
           this.router.navigate(["/"])
         },2500)
@@ -34,22 +32,22 @@ export class ProductComponent {
   }
 
   deleteProduct():void{
-    this.loading=true
+    this.sharedService.loading(true)
     this.productService.deleteProduct(this.router.url.split("/")[2])
     .subscribe({
       next:(res) => {
-        this.loading=false
-        this.success=true
-        this.message = res.message
+        this.sharedService.loading(false)
+        this.sharedService.toast(true,<string>res.message,"var(--success)")
         setTimeout(()=>{
+          this.sharedService.toast(false,"","var(--success)")
           this.router.navigate(["/"])
         },2500)
       },
       error:(err) => {
-        this.loading=false
-        this.success=false
-        this.message = err.error.message
+        this.sharedService.loading(false)
+        this.sharedService.toast(true,<string>err.error.message,"var(--error)")
         setTimeout(()=>{
+          this.sharedService.toast(false,"","var(--success)")
           this.router.navigate(["/"])
         },2500)
       }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Product } from 'src/app/interfaces';
 import { ProductService } from 'src/app/services/product.service';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-home',
@@ -9,23 +10,22 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class HomeComponent {
 
-  products:Product[] = []
-  loading:boolean = true
-  error:String = ""
+  products!:Product[]
 
-  constructor(private productService:ProductService){}
+  constructor(private productService:ProductService, private sharedService:SharedService){}
 
   ngOnInit():void{
+    this.sharedService.loading(true)
     this.productService.getProducts().subscribe({
       next:(res) => {
         this.products = res.products,
-        this.loading=false
+        this.sharedService.loading(false)
       },
-      error:(error) => {
-        this.error=error.error.message
-        this.loading=false
+      error:(err) => {
+        this.sharedService.loading(false)
+        this.sharedService.toast(true,<string>err.error.message,"var(--error)")
         setTimeout(() => {
-          this.error = ""
+          this.sharedService.toast(false,"","var(--error)")
         },2500)
       }
     })

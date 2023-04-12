@@ -2,6 +2,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductService } from 'src/app/services/product.service';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-add-product',
@@ -14,13 +15,10 @@ export class AddProductComponent {
   modelYear:String = ""
   price:Number = 0
   description:String = ""
-  message:String=""
-  loading:Boolean = false
-  success:Boolean = false
 
   addProductForm!: FormGroup
 
-  constructor(private productService:ProductService, private router:Router){
+  constructor(private productService:ProductService, private router:Router, private sharedService:SharedService){
     this.addProductForm = new FormGroup({
       productName : new FormControl('',[Validators.required]),
       modelYear : new FormControl('',[Validators.required, Validators.minLength(4), Validators.maxLength(4)]),
@@ -31,35 +29,31 @@ export class AddProductComponent {
 
   addProduct(){
     const { productName, modelYear, price, description } = this.addProductForm.value
-    this.loading=true
+    this.sharedService.loading(true)
     if(this.addProductForm.valid){
       this.productService.addProduct(productName,modelYear,price,description)
       .subscribe({
         next:(res) => {
-          this.message = res.message
-          this.loading = false
-          this.success = true
+          this.sharedService.toast(true,<string>res.message,"var(--success)");
+          this.sharedService.loading(false)
           setTimeout(() => {
+            this.sharedService.toast(false,"","var(--error)");
             this.router.navigate(["/"])
-            this.success = false
           },2500)
         },
         error:(err) =>{
-          this.message=err.error.message
-          this.success=false
-          this.loading=false
+          this.sharedService.toast(true,<string>err.error.message,"var(--error)");
+          this.sharedService.loading(false)
           setTimeout(() => {
             this.addProductForm.reset()
-            this.message=""
           },2500)
         }
       });
     }
     else{
-      this.message="Invalid details!"
+      this.sharedService.toast(true,"Invalid details","var(--error)");
       setTimeout(() => {
-        this.message=""
-        this.loading=false
+        this.sharedService.toast(false,"","var(--error)");
       },2500)
     }
   }

@@ -18,4 +18,13 @@ interface AuthState{
   user:User
 }
 
-export { Product, User, AuthState }
+interface SharedState{
+  loading:boolean,
+  toast:{
+    isError:boolean,
+    message?:string,
+    color?:string
+  }
+}
+
+export { Product, User, AuthState, SharedState }

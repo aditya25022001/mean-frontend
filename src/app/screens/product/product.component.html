@@ -1,4 +1,3 @@
-<mat-spinner class="mx-auto my-5" strokeWidth="3" diameter="60" *ngIf="loading"></mat-spinner>
 <div class="productpage" *ngIf="product">
   <img src="../../assets/elec.jpeg" style="width:40%; flex:0.5;" class="border img-thumbnail"/>
   <div class="mx-2"></div>
@@ -33,4 +32,3 @@
     </button>
   </div>
 </div>
-<app-toast *ngIf="message.length>0 || success" color="{{ success ? 'var(--success)' : 'var(--error)' }}"  message="{{message}}"></app-toast>

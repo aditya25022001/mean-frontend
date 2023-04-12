@@ -1,10 +1,11 @@
 import { Injectable } from "@angular/core";
-import { createFeatureSelector, createSelector, createAction, createReducer, on, props } from '@ngrx/store';
+import { createFeatureSelector, createSelector, createAction, createReducer, on, props, Store } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { exhaustMap, map } from "rxjs/operators"
 import { AuthState, User } from "../interfaces";
 import { UserService } from "../services/user.service";
-import { initialState } from "../app.state";
+import { AppState, initialState } from "../app.state";
+import { loading } from "./shared";
 
 enum LoginTypes{
   LOGIN_REQUEST = "LOGIN_REQUEST",
@@ -32,14 +33,14 @@ const loginReducer = createReducer(
   })
 )
 
-export function LoginReducer(state: { user: User; } | undefined,action: any){
+export function LoginReducer(state: AuthState | undefined,action: any){
   return loginReducer(state,action)
 }
 
 @Injectable()
 export class AuthEffect{
 
-  constructor(private actions:Actions, private userService:UserService) {}
+  constructor(private actions:Actions, private userService:UserService, private store:Store<AppState>) {}
 
   login = createEffect(() => {
     return this.actions
@@ -48,14 +49,14 @@ export class AuthEffect{
         return this.userService.login(action.email,action.password)
         .pipe(map((data) => {
           localStorage.setItem('userInfo',JSON.stringify(data.user))
+          this.store.dispatch(loading({ loading:false }))
           return loginSuccess({user:data.user})
         }))
     }))
   })
 }
 
-const getUserState = createFeatureSelector<AuthState>("auth")
-
+const getUserState = createFeatureSelector<AuthState>("login")
 export const getUser = createSelector(getUserState,(state)=>{
   return state.user
 })

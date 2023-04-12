@@ -22,8 +22,10 @@ import { StarComponent } from './components/star/star.component';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects'
-import { AuthEffect } from './redux/login';
+import { AuthEffect, LoginReducer } from './redux/login';
 import { appReducer } from './app.state';
+import { SharedReducer } from './redux/shared';
+import { LoaderComponent } from './components/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { appReducer } from './app.state';
     UpdateProductComponent,
     AddProductComponent,
     ToastComponent,
-    StarComponent
+    StarComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,

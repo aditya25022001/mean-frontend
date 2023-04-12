@@ -1,4 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { AppState } from 'src/app/app.state';
+import { getToast } from 'src/app/redux/shared';
 
 @Component({
   selector: 'app-toast',
@@ -7,11 +11,12 @@ import { Component, Input } from '@angular/core';
 })
 export class ToastComponent {
 
-  @Input() message:String = ""
-  @Input() color:String = "var(--error)"
+  constructor(private store:Store<AppState>){}
 
-  constructor(){}
+  toast!:Observable<{ isError:boolean, message?:string, color?:string }>
 
-  ngOnInit():void{}
+  ngOnInit():void{
+    this.toast = this.store.select(getToast)
+  }
 
 }
