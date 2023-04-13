@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { ProductService } from 'src/app/services/product.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AppState } from 'src/app/app.state';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-update-product',
@@ -16,7 +18,7 @@ export class UpdateProductComponent {
 
   updateProductForm!:FormGroup
 
-  constructor(private productService:ProductService, private router:Router, private sharedService:SharedService){
+  constructor(private store:Store<AppState>, private productService:ProductService, private router:Router, private sharedService:SharedService){
     this.updateProductForm = new FormGroup({
       productName : new FormControl('',[Validators.required]),
       modelYear : new FormControl('',[Validators.required, Validators.minLength(4), Validators.maxLength(4)]),
@@ -26,6 +28,9 @@ export class UpdateProductComponent {
   }
 
   ngOnInit():void{
+    this.store.select(state => state.login.user).subscribe((d) => {
+      if(!d || !d.isAdmin) this.router.navigate(["/"])
+    })
     this.productId = this.router.url.split("/")[2]
     this.productService.getProductById(this.router.url.split("/")[2]).subscribe((data) => {
       this.updateProductForm.setValue({

@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './screens/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ProductComponent } from './screens/product/product.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ErrorComponent } from './screens/error/error.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -22,10 +22,11 @@ import { StarComponent } from './components/star/star.component';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects'
-import { AuthEffect, LoginReducer } from './redux/login';
+import { AuthEffect } from './redux/login';
 import { appReducer } from './app.state';
-import { SharedReducer } from './redux/shared';
 import { LoaderComponent } from './components/loader/loader.component';
+import { TokeninterceptorService } from './services/tokeninterceptor.service';
+import { ProductCardComponent } from './components/product-card/product-card.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { LoaderComponent } from './components/loader/loader.component';
     AddProductComponent,
     ToastComponent,
     StarComponent,
-    LoaderComponent
+    LoaderComponent,
+    ProductCardComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +59,9 @@ import { LoaderComponent } from './components/loader/loader.component';
     EffectsModule.forRoot([AuthEffect]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
-  providers: [AuthEffect],
+  providers: [AuthEffect,
+    { provide: HTTP_INTERCEPTORS, useClass: TokeninterceptorService, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

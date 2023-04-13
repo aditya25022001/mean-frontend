@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppState } from 'src/app/app.state';
-import { getToast } from 'src/app/redux/shared';
+import { error, getToast } from 'src/app/redux/shared';
 
 @Component({
   selector: 'app-toast',
@@ -17,6 +17,12 @@ export class ToastComponent {
 
   ngOnInit():void{
     this.toast = this.store.select(getToast)
+    this.toast.subscribe((data) => {
+      if(data.isError)
+        setTimeout(()=>{
+          this.store.dispatch(error({ isError:false, message:"", color:"var(--error)" }));
+        },2500)
+    })
   }
 
 }
