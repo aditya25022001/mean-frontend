@@ -1,5 +1,5 @@
 <div class="productpage" *ngIf="product">
-  <img src="../../assets/elec.jpeg" style="width:40%; flex:0.5;" class="border img-thumbnail"/>
+  <img [src]="product.image" style="width:40%; flex:0.5;" class="border img-thumbnail"/>
   <div class="mx-2"></div>
   <div style="flex:0.5;">
     <div class="my-2"><strong>Product Name : </strong>{{product.productName}}</div>

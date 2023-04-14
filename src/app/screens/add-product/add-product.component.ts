@@ -4,9 +4,10 @@ import { Router } from '@angular/router';
 import { ProductService } from 'src/app/services/product.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { Observable } from 'rxjs';
-import { User } from 'src/app/interfaces';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.state';
+import { Storage, getDownloadURL, ref, uploadBytes } from '@angular/fire/storage';
+import { ulid } from 'ulid'
 
 @Component({
   selector: 'app-add-product',
@@ -15,15 +16,12 @@ import { AppState } from 'src/app/app.state';
 })
 export class AddProductComponent {
 
-  productName:String = ""
-  modelYear:String = ""
-  price:Number = 0
-  description:String = ""
-
   addProductForm!: FormGroup
+  imageUrl:String | undefined = undefined
   isAdmin!:Observable<Boolean>
+  productId:String | undefined = undefined
 
-  constructor(private store:Store<AppState>, private productService:ProductService, private router:Router, private sharedService:SharedService){
+  constructor(private store:Store<AppState>, private productService:ProductService, private router:Router, private storage:Storage, private sharedService:SharedService){
     this.addProductForm = new FormGroup({
       productName : new FormControl('',[Validators.required]),
       modelYear : new FormControl('',[Validators.required, Validators.minLength(4), Validators.maxLength(4)]),
@@ -38,11 +36,33 @@ export class AddProductComponent {
     })
   }
 
+  setImage(event:Event):void{
+    this.productId = ulid()
+    uploadBytes(ref(this.storage,`/mean/${this.productId}`),<Blob>(<HTMLInputElement>event?.target)?.files?.[0])
+    .then((res) => {
+      this.sharedService.loading(true);
+      getDownloadURL(ref(this.storage,`/mean/${this.productId}`))
+      .then((url) => {
+        this.sharedService.loading(false);
+        this.sharedService.toast(true,"Image uploaded successfully","var(--success)");
+        this.imageUrl=url
+      })
+      .catch((err) => {
+        this.sharedService.loading(false);
+        this.sharedService.toast(true,"Error uploading image","var(--error)");
+      })
+    })
+    .catch((err) => {
+      this.sharedService.loading(false);
+      this.sharedService.toast(true,"Error uploading image","var(--error)");
+    })
+  }
+
   addProduct(){
     const { productName, modelYear, price, description } = this.addProductForm.value
     this.sharedService.loading(true)
     if(this.addProductForm.valid){
-      this.productService.addProduct(productName,modelYear,price,description)
+      this.productService.addProduct(productName,modelYear,price,description,this.imageUrl, this.productId)
       .subscribe({
         next:(res) => {
           this.sharedService.toast(true,<string>res.message,"var(--success)");

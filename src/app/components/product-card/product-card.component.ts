@@ -12,6 +12,7 @@ export class ProductCardComponent {
   @Input() price!:number
   @Input() modelYear!:string
   @Input() description!:string
+  @Input() image!:String
 
   constructor(){}
 

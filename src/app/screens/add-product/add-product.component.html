@@ -35,6 +35,10 @@
   <label>Description</label>
   <textarea class="form-control" id="description" formControlName="description"></textarea>
   <br/>
+  <label>Image</label>
+  <input [disabled]="imageUrl" (change)="setImage($event)" class="border p-1 rounded w-100" type="file" accept="image/png, image/jpg, image/jpeg" id="image" />
+  <br/>
+  <br/>
   <input type="submit" value="Add" class="submitbutton" style="width:100%; text-align:center; background-color:var(--primary);">
 </form>
 

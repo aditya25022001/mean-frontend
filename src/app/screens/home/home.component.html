@@ -1,5 +1,5 @@
 <div class="d-flex" style="align-items:center;">
-  <h3>Products</h3>
+  <h4>Products</h4>
   <div *ngIf="admin | async" class="ml-auto" routerLink="/addproduct">
     <button class="button pb-2" style="background-color:black;">
       <mat-icon class="icon mt-1 mb-0 mr-2 p-0" style="font-size: 18px; height: 20px;" fontIcon="add"></mat-icon>
@@ -15,6 +15,8 @@
     [price]="product.price"
     productName="{{product.productName}}"
     description="{{product.description}}"
-    modelYear="{{product.modelYear}}">
+    modelYear="{{product.modelYear}}"
+    image="{{product.image}}"
+  >
   </app-product-card>
 </div>

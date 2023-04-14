@@ -1,6 +1,6 @@
 <div class="card-container">
   <div class="productcard" routerLink="/product/{{productId}}">
-    <img src="../../assets/elec.jpeg" style="width:100%;">
+    <img [src]="image" class="img-fluid w-100 h-50">
     <div><strong>Product Name : </strong>{{productName}}</div>
     <div><strong>Price : </strong>{{ price  | currency:'INR'}}</div>
     <div><strong>Description : </strong>{{description}}</div>

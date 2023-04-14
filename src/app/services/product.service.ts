@@ -1,13 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Product } from '../interfaces';
 import { Observable } from 'rxjs';
-
-// const httpOptions = {
-//   headers: new HttpHeaders({
-//     'Content-Type': 'application/json',
-//   }),
-// };
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +10,9 @@ import { Observable } from 'rxjs';
 export class ProductService {
 
   private apiURL = "http://127.0.0.1:5000"
+  url:String = ""
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient) {}
 
   getProducts():Observable<{message:String, products:Product[]}>{
     return this.http.get<{message:String, products:Product[]}>(`${this.apiURL}/api/v1/products`)
@@ -31,8 +26,8 @@ export class ProductService {
     return this.http.delete<{message:String, success:Boolean}>(`${this.apiURL}/api/v1/products/${productId}`)
   }
 
-  addProduct(productName:String, modelYear:String, price:Number, description:String):Observable<{message:String, product:Product, success:Boolean}>{
-    return this.http.post<{message:String, product:Product, success:Boolean}>(`${this.apiURL}/api/v1/products`,{ productName, price, description, modelYear });
+  addProduct(productName:String, modelYear:String, price:Number, description:String, image?:String, productId?:String):Observable<{message:String, product:Product, success:Boolean}>{
+    return this.http.post<{message:String, product:Product, success:Boolean}>(`${this.apiURL}/api/v1/products`,{ productName, price, description, modelYear, image, productId });
   }
 
   updateProduct(productId:String, productName:String, modelYear:String, price:Number, description:String):Observable<{message:String, product:Product, success:Boolean}>{

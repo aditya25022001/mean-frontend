@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "clone-fb-dd07f": {
+      "hosting": {
+        "client": [
+          "meanprmanagement"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "clone-fb-dd07f"
+  }
+}

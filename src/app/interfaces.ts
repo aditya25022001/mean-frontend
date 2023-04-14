@@ -3,7 +3,8 @@ interface Product{
   productName:String,
   price:number,
   modelYear:String,
-  description?:String
+  description?:String,
+  image?:String
 }
 
 interface User{
