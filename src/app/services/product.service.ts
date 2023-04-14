@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 
 export class ProductService {
 
-  private apiURL = "http://127.0.0.1:5000"
+  private apiURL = "https://meanbackend-kc4w.onrender.com"
   url:String = ""
 
   constructor(private http:HttpClient) {}

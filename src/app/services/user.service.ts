@@ -15,7 +15,7 @@ const httpOptions = {
 
 export class UserService {
 
-  private apiURL = "http://127.0.0.1:5000"
+  private apiURL = "https://meanbackend-kc4w.onrender.com"
 
   constructor(private http:HttpClient) { }
 
