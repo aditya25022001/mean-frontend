@@ -37,10 +37,10 @@ export class AddProductComponent {
   }
 
   setImage(event:Event):void{
+    this.sharedService.loading(true);
     this.productId = ulid()
     uploadBytes(ref(this.storage,`/mean/${this.productId}`),<Blob>(<HTMLInputElement>event?.target)?.files?.[0])
     .then((res) => {
-      this.sharedService.loading(true);
       getDownloadURL(ref(this.storage,`/mean/${this.productId}`))
       .then((url) => {
         this.sharedService.loading(false);
