@@ -2,6 +2,10 @@ import { Component } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { SharedService } from 'src/app/services/shared.service';
+import { loginRequest } from 'src/app/redux/login';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/app.state';
 
 @Component({
   selector: 'app-register',
@@ -19,7 +23,7 @@ export class RegisterComponent {
 
   registerForm!: FormGroup
 
-  constructor(private userService:UserService, private router:Router){
+  constructor(private store:Store<AppState>, private sharedService:SharedService, private userService:UserService, private router:Router){
     this.registerForm = new FormGroup({
       name:new FormControl('',[Validators.required]),
       email: new FormControl("",[Validators.required, Validators.email]),
@@ -28,7 +32,11 @@ export class RegisterComponent {
     })
   }
 
-  ngOnInit():void{}
+  ngOnInit():void{
+    this.store.select(state => state.login.user).subscribe((data) => {
+      if(data.token!==undefined) this.router.navigate(["/"])
+    })
+  }
 
   toggleShowPassword():void{
     this.showPassword = !this.showPassword
@@ -43,34 +51,29 @@ export class RegisterComponent {
   }
 
   register(){
-    this.loading=true
+    this.sharedService.loading(true)
     const { email, name, password } = this.registerForm.value
     if(this.registerForm.valid)
       this.userService.register(email,password,name)
       .subscribe({
         next:(res) => {
-          this.loading=false
-          this.message=res.message
-          this.success=true
-          localStorage.setItem("useInfo",JSON.stringify(res.user));
-          setTimeout(()=>{
-            this.router.navigate(["/"])
-          },2500)
+          this.sharedService.loading(false)
+          this.sharedService.toast(true,<string>res.message,"var(--success)");
+          this.store.dispatch(loginRequest({email,password}));
         },
         error:(err) => {
-          this.success=false
-          this.loading=false
-          this.message=err.error.message
+          this.sharedService.loading(false)
+          this.sharedService.toast(true,<string>err.eror.message,"var(--error)");
           setTimeout(() => {
-            this.message=""
+            this.sharedService.toast(false,"","var(--error)");
           },2500)
         }
       });
-    else {
-      this.message="Invalid details!"
-      setTimeout(() => {
-        this.message=""
-        this.loading=false
+      else {
+        this.sharedService.toast(true,"Invalid details","var(--error)");
+        setTimeout(() => {
+          this.sharedService.toast(false,"","var(--error)");
+          this.sharedService.loading(false)
       },2150)
     }
   }

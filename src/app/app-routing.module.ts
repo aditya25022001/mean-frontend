@@ -7,6 +7,7 @@ import { RegisterComponent } from './screens/register/register.component';
 import { LoginComponent } from './screens/login/login.component';
 import { AddProductComponent } from './screens/add-product/add-product.component';
 import { UpdateProductComponent } from './screens/update-product/update-product.component';
+import { AboutComponent } from './screens/about/about.component';
 
 const routes: Routes = [
   {path:"",component:HomeComponent},
@@ -16,6 +17,7 @@ const routes: Routes = [
   {path:"login",component:LoginComponent},
   {path:"register",component:RegisterComponent},
   {path:"product/:id",component:ProductComponent},
+  {path:"about",component:AboutComponent},
   {path:"**", component:ErrorComponent, pathMatch:"full"}
 ];
 

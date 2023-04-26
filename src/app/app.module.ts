@@ -30,6 +30,7 @@ import { ProductCardComponent } from './components/product-card/product-card.com
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideStorage,getStorage } from '@angular/fire/storage';
+import { AboutComponent } from './screens/about/about.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { provideStorage,getStorage } from '@angular/fire/storage';
     ToastComponent,
     StarComponent,
     LoaderComponent,
-    ProductCardComponent
+    ProductCardComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,

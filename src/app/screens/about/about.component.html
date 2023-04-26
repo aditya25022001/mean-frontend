@@ -1,0 +1,15 @@
+<table class="table border table-bordered mx-auto">
+  <thead class="thead-dark">
+    <tr>
+      <th>SNo.</th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let a  of abouts">
+      <td>{{a.sno}}</td>
+      <td>
+        <a target="_blank" [href]="a.value">{{a.name}}</a></td>
+    </tr>
+  </tbody>
+</table>

@@ -1,6 +1,7 @@
 <div class="toolbar" role="banner">
-  <h5 class="ml-3 mt-1" style="cursor:pointer;" routerLink="/">Product Management</h5>
+  <h5 class="ml-3 mt-1" style="cursor:pointer;" routerLink="/">MEAN</h5>
     <div class="spacer"></div>
+    <div class="mr-5" style="cursor:pointer;" routerLink="/about">About</div>
     <div class="mr-3" style="cursor:pointer;" *ngIf="!(name | async)" routerLink="/login">Login</div>
     <div class="mr-3" style="cursor:pointer; font-size: 17px;" (click)="logoutAction()" *ngIf="name | async" routerLink="/">{{name | async}}</div>
 </div>
