@@ -8,6 +8,23 @@
   </div>
 </div>
 <mat-divider class="my-3"></mat-divider>
+<div class="d-flex" style="align-items:center; width: 100%;">
+  <h5>Filters</h5>
+  <div>
+    <form [formGroup]="filterForm" (ngSubmit)="applyFilters()" class="d-flex" style="align-items:center;">
+      <input type="number" placeholder="Min. Price" formControlName="minPrice" id="minPrice" class="form-control mx-2">
+      <input type="number" placeholder="Max. Price" formControlName="maxPrice" id="maxPrice" class="form-control mx-2">
+      <div class="w-100">
+        <input type="text" placeholder="Model Year" formControlName="modelYear" id="modelYear" class="form-control mx-2">
+        <div *ngIf="filterForm.get('modelYear')?.touched && !filterForm.get('modelYear')?.valid" style="color:var(--error); font-size: 12px;">
+          <div *ngIf="filterForm.get('modelYear')?.value.length!==4">Should be of form YYYY</div>
+        </div>
+      </div>
+      <button class="button pb-2 ml-3" style="background-color:black;">Apply</button>
+    </form>
+  </div>
+</div>
+<mat-divider class="my-3"></mat-divider>
 <div class="d-flex home" style="flex-wrap: wrap;">
   <app-product-card
     *ngFor="let product of products"

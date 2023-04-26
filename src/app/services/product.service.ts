@@ -14,8 +14,8 @@ export class ProductService {
 
   constructor(private http:HttpClient) {}
 
-  getProducts():Observable<{message:String, products:Product[]}>{
-    return this.http.get<{message:String, products:Product[]}>(`${this.apiURL}/api/v1/products`)
+  getProducts(minPrice=0, maxPrice=2e7, modelYear=""):Observable<{message:String, products:Product[]}>{
+    return this.http.get<{message:String, products:Product[]}>(`${this.apiURL}/api/v1/products?minPrice=${minPrice}&maxPrice=${maxPrice}&modelYear=${modelYear}`)
   }
 
   getProductById(productId:String):Observable<{message:String, product:Product}>{
